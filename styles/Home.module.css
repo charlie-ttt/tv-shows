@@ -33,6 +33,14 @@
   color: rgb(120, 120, 120);
 }
 
+.latestshows {
+  margin-top: 10%;
+  align-self: start;
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: rgb(100, 100, 100);
+}
+
 .footer {
   z-index: 1;
   background-color: rgb(230, 230, 230);

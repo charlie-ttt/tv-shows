@@ -1,8 +1,11 @@
 import Head from "next/head";
-import type { NextPage } from "next";
+import { InferGetServerSidePropsType } from "next";
+import LatestShows from "../src/components/latest-shows";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = () => {
+const Home = ({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -18,11 +21,23 @@ const Home: NextPage = () => {
           TV Show and web series database. Create personalised schedules.
           Episode guide, cast, crew, and character information.
         </p>
+
+        <h2 className={styles.latestshows}>Latest Added Shows</h2>
+        <LatestShows movies={data} />
       </main>
 
       <footer className={styles.footer}></footer>
     </div>
   );
 };
+
+interface Data {}
+
+export async function getServerSideProps() {
+  const res = await fetch("https://api.tvmaze.com/schedule");
+  const data: Data = await res.json();
+
+  return { props: { data } };
+}
 
 export default Home;
