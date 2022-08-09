@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  margin: 0.5rem;
+  overflow-wrap: break-word;
+}

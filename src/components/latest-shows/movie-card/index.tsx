@@ -1,33 +1,27 @@
+import Image from "next/image";
+import styles from "./style.module.css";
+
 interface MovieCardProps {
   url: string;
-  star: number;
-  title: string;
-}
-
-export interface Movie {
-  airdate: string;
-  airstamp: string;
-  airtime: string;
-  id: number;
-  image: null;
+  rating: number;
   name: string;
-  number: number;
-  rating: any;
-  runtime: number;
-  season: number;
-  show: any;
-  summary: string;
-  type: string;
-  url: string;
+  imageurl: string;
 }
 
-const MovieCard = ({ url, star, title }: MovieCardProps) => {
+const MovieCard = ({ name, url, rating, imageurl }: MovieCardProps) => {
   return (
-    <>
-      <div>title: {title}</div>
-      <div>star: {star}</div>
-      <div>url: {url}</div>
-    </>
+    <div className={styles.container}>
+      <Image
+        alt="movie poster"
+        layout="responsive"
+        src={imageurl}
+        sizes="30vw"
+        width="500px"
+        height="600px"
+      />
+      <div>star: {rating}</div>
+      <div>{name}</div>
+    </div>
   );
 };
 

@@ -1,11 +1,13 @@
 import Head from "next/head";
 import { InferGetServerSidePropsType } from "next";
 import LatestShows from "../src/components/latest-shows";
+import type { MovieData } from "../src/components/latest-shows";
 import styles from "../styles/Home.module.css";
 
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  console.log("🚀 ~ data", data);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +15,6 @@ const Home = ({
         <meta name="description" content="TV Bland Application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <div className={styles.bannertop}></div>
       <main className={styles.main}>
         <h1 className={styles.title}>TV Bland</h1>
@@ -21,22 +22,16 @@ const Home = ({
           TV Show and web series database. Create personalised schedules.
           Episode guide, cast, crew, and character information.
         </p>
-
-        <h2 className={styles.latestshows}>Latest Added Shows</h2>
         <LatestShows movies={data} />
       </main>
-
       <footer className={styles.footer}></footer>
     </div>
   );
 };
 
-interface Data {}
-
 export async function getServerSideProps() {
   const res = await fetch("https://api.tvmaze.com/schedule");
-  const data: Data = await res.json();
-
+  const data: MovieData[] = await res.json();
   return { props: { data } };
 }
 
