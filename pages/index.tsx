@@ -11,9 +11,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <div className={styles.bannertop}></div>
       <main className={styles.main}>
         <h1 className={styles.title}>TV Bland</h1>
-
         <p className={styles.description}>
           TV Show and web series database. Create personalised schedules.
           Episode guide, cast, crew, and character information.
