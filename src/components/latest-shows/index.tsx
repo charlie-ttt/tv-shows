@@ -1,5 +1,5 @@
 import MovieCard from "./movie-card";
-import styles from "./styles.module.css";
+import styles from "./latest-shows.module.css";
 interface LatestShowsProps {
   movies: MovieData[];
 }

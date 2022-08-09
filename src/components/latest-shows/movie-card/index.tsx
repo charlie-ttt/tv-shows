@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./style.module.css";
+import styles from "./movie-card.module.css";
 
 interface MovieCardProps {
   url: string;
@@ -17,7 +17,7 @@ const MovieCard = ({ name, url, rating, imageurl }: MovieCardProps) => {
         src={imageurl}
         sizes="30vw"
         width="500px"
-        height="600px"
+        height="700px"
       />
       <div>star: {rating}</div>
       <div>{name}</div>

@@ -7,7 +7,6 @@ import styles from "../styles/Home.module.css";
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log("🚀 ~ data", data);
   return (
     <div className={styles.container}>
       <Head>
@@ -19,8 +18,9 @@ const Home = ({
       <main className={styles.main}>
         <h1 className={styles.title}>TV Bland</h1>
         <p className={styles.description}>
-          TV Show and web series database. Create personalised schedules.
-          Episode guide, cast, crew, and character information.
+          TV Show and web series database. <br />
+          Create personalised schedules. Episode guide, cast, crew, and
+          character information.
         </p>
         <LatestShows movies={data} />
       </main>
