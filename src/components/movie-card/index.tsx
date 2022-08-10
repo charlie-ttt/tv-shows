@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import StarRating from "../star-rating";
 import styles from "./movie-card.module.css";
 
 interface MovieCardProps {
@@ -22,7 +23,7 @@ const MovieCard = ({ id, name, rating, imageurl }: MovieCardProps) => {
             width="500px"
             height="700px"
           />
-          <div>star: {rating}</div>
+          <StarRating value={rating} showNumber={false} />
           <div>{name}</div>
         </div>
       </a>

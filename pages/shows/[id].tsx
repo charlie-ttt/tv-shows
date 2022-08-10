@@ -2,6 +2,7 @@ import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import Head from "next/head";
 import Image from "next/image";
+import StarRating from "../../src/components/star-rating";
 import defaultstyles from "../../styles/default-layout.module.css";
 import showdetailpage from "../../styles/show-detail-page.module.css";
 
@@ -33,7 +34,7 @@ const Show = ({
             />
           </div>
           <div className={showdetailpage.summarycontent}>
-            <div>rating: {rating?.average || "N/A"}</div>
+            <StarRating value={rating?.average || 0} showNumber={true} />
             <h2 className={showdetailpage.summarytitle}>{name}</h2>
             <div
               dangerouslySetInnerHTML={{ __html: summary }}
