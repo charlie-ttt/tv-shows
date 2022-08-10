@@ -1,33 +1,8 @@
 import MovieCard from "../movie-card";
+import type { RecentShowsRes } from "../../interfaces/api-interfaces";
 import styles from "./latest-shows.module.css";
 interface LatestShowsProps {
-  movies: MovieData[];
-}
-
-export interface MovieData {
-  airdate: string;
-  airstamp: string;
-  airtime: string;
-  id: number;
-  image: null;
-  name: string;
-  number: number;
-  rating: any;
-  runtime: number;
-  season: number;
-  show: {
-    id: number;
-    image: {
-      medium: string;
-    };
-    name: string;
-    rating: {
-      average: number;
-    };
-  };
-  summary: string;
-  type: string;
-  url: string;
+  movies: RecentShowsRes;
 }
 
 const LatestShows = ({ movies }: LatestShowsProps) => {

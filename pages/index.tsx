@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { InferGetServerSidePropsType } from "next";
 import LatestShows from "../src/components/latest-shows";
-import type { MovieData } from "../src/components/latest-shows";
+import type { RecentShowDetail } from "../src/interfaces/api-interfaces";
 import defaultstyles from "../styles/default-layout.module.css";
 import homestyles from "../styles/home-page.module.css";
 
@@ -33,7 +33,7 @@ const Home = ({
 
 export async function getServerSideProps() {
   const res = await fetch("https://api.tvmaze.com/schedule");
-  const data: MovieData[] = await res.json();
+  const data: RecentShowDetail[] = await res.json();
   return { props: { data } };
 }
 
