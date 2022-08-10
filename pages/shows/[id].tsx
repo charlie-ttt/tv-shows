@@ -8,7 +8,8 @@ import showdetailpage from "../../styles/show-detail-page.module.css";
 const Show = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { name, rating, image, summary } = data;
+  const { name, rating, image, summary, status, schedule, genres, network } =
+    data;
 
   return (
     <div className={defaultstyles.container}>
@@ -23,17 +24,54 @@ const Show = ({
       <div className={defaultstyles.bannertop} />
       <main className={defaultstyles.main}>
         <h1 className={defaultstyles.title}>TV Bland</h1>
-        <div className={showdetailpage.summary}>
-          <Image
-            alt="movie poster"
-            src={image?.medium || "https://via.placeholder.com/150"}
-            width="300px"
-            height="450px"
-          />
-          <div>
-            <h2>{name}</h2>
+        <div className={showdetailpage.summarycontainer}>
+          <div className={showdetailpage.moviecard}>
+            <Image
+              alt="movie poster"
+              src={image?.medium || "https://via.placeholder.com/150"}
+              layout="fill"
+            />
+          </div>
+          <div className={showdetailpage.summarycontent}>
             <div>rating: {rating?.average || "N/A"}</div>
-            <div dangerouslySetInnerHTML={{ __html: summary }} />
+            <h2 className={showdetailpage.summarytitle}>{name}</h2>
+            <div
+              dangerouslySetInnerHTML={{ __html: summary }}
+              className={showdetailpage.summarydescription}
+            />
+          </div>
+        </div>
+        <div className={showdetailpage.showdetailscontainer}>
+          <div className={showdetailpage.showdetailscolumn}>
+            <h3 className={showdetailpage.columnHeader}>Show Info</h3>
+            <div className={showdetailpage.detailItem}>
+              Streamed on
+              <span className={showdetailpage.resulttext}>
+                {network?.name || "n/a"}
+              </span>
+            </div>
+            <div className={showdetailpage.detailItem}>
+              Schedule
+              <span className={showdetailpage.resulttext}>
+                {schedule?.days?.join(", ") || "n/a"}
+              </span>
+            </div>
+            <div className={showdetailpage.detailItem}>
+              Status
+              <span className={showdetailpage.resulttext}>
+                {status || "n/a"}
+              </span>
+            </div>
+            <div className={showdetailpage.detailItem}>
+              Genre
+              <span className={showdetailpage.resulttext}>
+                {genres?.join(", ") || "n/a"}
+              </span>
+            </div>
+          </div>
+
+          <div className={showdetailpage.showdetailscolumn}>
+            <h3 className={showdetailpage.columnHeader}>Starring</h3>
           </div>
         </div>
       </main>
@@ -54,6 +92,18 @@ interface APIMovieDetail {
     average: number;
   };
   name: string;
+  status: string;
+  schedule: {
+    time: string;
+    days: string[];
+  };
+  genres: string[];
+  network: null | {
+    country: { name: string };
+    id: number;
+    name: string;
+    officialSite: string;
+  };
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
