@@ -33,7 +33,6 @@ export interface MovieData {
 const LatestShows = ({ movies }: LatestShowsProps) => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.latestshows}>Latest Added Shows</h2>
       <div className={styles.movielist}>
         {movies.map(({ id, show }) => {
           return (
