@@ -16,6 +16,7 @@ export interface MovieData {
   runtime: number;
   season: number;
   show: {
+    id: number;
     image: {
       medium: string;
     };
@@ -34,12 +35,12 @@ const LatestShows = ({ movies }: LatestShowsProps) => {
     <div className={styles.container}>
       <h2 className={styles.latestshows}>Latest Added Shows</h2>
       <div className={styles.movielist}>
-        {movies.map(({ id, url, show }) => {
+        {movies.map(({ id, show }) => {
           return (
             <MovieCard
               key={id}
+              id={show?.id || 0}
               name={show?.name || ""}
-              url={url}
               rating={show?.rating?.average || 0}
               imageurl={
                 show?.image?.medium || "https://via.placeholder.com/150"
