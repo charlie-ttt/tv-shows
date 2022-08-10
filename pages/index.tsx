@@ -10,7 +10,7 @@ const Home = ({
   return (
     <div className={styles.container}>
       <Head>
-        <title>TV Bland</title>
+        <title>Home Page: TV Bland</title>
         <meta name="description" content="TV Bland Application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
