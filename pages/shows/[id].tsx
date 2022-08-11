@@ -53,7 +53,7 @@ const Show = ({
           </div>
         </div>
         <div className={styles.showdetailscontainer}>
-          <div className={styles.showdetailscolumn}>
+          <div>
             <h3 className={styles.columnHeader}>Show Info</h3>
             <div className={styles.detailItemContainer}>
               <DetailItem name="Streamed on" value={network?.name || "n/a"} />
@@ -66,7 +66,7 @@ const Show = ({
             </div>
           </div>
 
-          <div className={styles.showdetailscolumn}>
+          <div>
             <h3 className={styles.columnHeader}>Starring</h3>
             {castData.map((cast, i) => (
               <DetailItemWithIcon
