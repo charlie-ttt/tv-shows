@@ -1,0 +1,37 @@
+
+.detailItemWithIconRoot{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detailText{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.resulttext{
+  margin-top: 0.5rem;
+  font-weight: 400;
+  color: gray;
+}
+
+@media (min-width: 420px) {
+  .detailItemRoot{
+    width: 100%;
+  }
+  .detailText{
+    flex-direction: row;
+    align-items: center;
+
+  }
+  .resulttext{
+    margin-top: 0;
+    margin-left: 1rem;
+  }
+}

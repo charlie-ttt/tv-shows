@@ -5,6 +5,8 @@ import type {
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import type { AxiosResponse } from "axios";
+import DetailItem from "../../src/components/detail-item";
+import DetailItemWithIcon from "../../src/components/detail-item-with-icon";
 import Error from "next/error";
 import Head from "next/head";
 import Image from "next/image";
@@ -53,27 +55,21 @@ const Show = ({
         <div className={styles.showdetailscontainer}>
           <div className={styles.showdetailscolumn}>
             <h3 className={styles.columnHeader}>Show Info</h3>
-            <DetailItem name="Streamed on" value={network?.name || "n/a"} />
-            <DetailItem
-              name="Schedule"
-              value={schedule?.days?.join(", ") || "n/a"}
-            />
-            <DetailItem name="Status" value={status || "n/a"} />
-            <DetailItem name="Genre" value={genres?.join(", ") || "n/a"} />
+            <div className={styles.detailItemContainer}>
+              <DetailItem name="Streamed on" value={network?.name || "n/a"} />
+              <DetailItem
+                name="Schedule"
+                value={schedule?.days?.join(", ") || "n/a"}
+              />
+              <DetailItem name="Status" value={status || "n/a"} />
+              <DetailItem name="Genre" value={genres?.join(", ") || "n/a"} />
+            </div>
           </div>
 
           <div className={styles.showdetailscolumn}>
-            <Image
-              src="/human-icon.svg"
-              alt="SVG as an image"
-              layout="fixed"
-              height={30}
-              width={30}
-            />
-
             <h3 className={styles.columnHeader}>Starring</h3>
             {castData.map((cast, i) => (
-              <DetailItem
+              <DetailItemWithIcon
                 key={i} // use index because characterId from API response are duplicated for some reason
                 name={cast?.person?.name || "n/a"}
                 value={cast?.character?.name || "n/a"}
@@ -86,18 +82,6 @@ const Show = ({
     </div>
   );
 };
-
-interface DetailItemProps {
-  name: string;
-  value: string;
-}
-
-const DetailItem = ({ name, value }: DetailItemProps) => (
-  <div className={styles.detailItem}>
-    {name}
-    <span className={styles.resulttext}>{value}</span>
-  </div>
-);
 
 interface IProps {
   showData: MovieDetailRes;
