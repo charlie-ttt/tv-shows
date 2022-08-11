@@ -1,7 +1,9 @@
+import type { AxiosResponse } from "axios";
 import Head from "next/head";
 import { InferGetServerSidePropsType } from "next";
 import LatestShows from "../src/components/latest-shows";
 import type { RecentShowDetail } from "../src/interfaces/api-interfaces";
+import axios from "axios";
 import styles from "../styles/home-page.module.css";
 
 const Home = ({
@@ -32,9 +34,10 @@ const Home = ({
 
 export async function getServerSideProps() {
   const API_ENDPOINT = process.env.TVMAZE_ENDPOINT;
-  const res = await fetch(`${API_ENDPOINT}/schedule`);
-  const data: RecentShowDetail[] = await res.json();
-  return { props: { data } };
+  const res: AxiosResponse<RecentShowDetail[]> = await axios.get(
+    `${API_ENDPOINT}/schedule`
+  );
+  return { props: { data: res.data } };
 }
 
 export default Home;

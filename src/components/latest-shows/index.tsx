@@ -1,11 +1,12 @@
 import MovieCard from "../movie-card";
 import type { RecentShowsRes } from "../../interfaces/api-interfaces";
 import styles from "./latest-shows.module.css";
-interface LatestShowsProps {
+
+interface Props {
   movies: RecentShowsRes;
 }
 
-const LatestShows = ({ movies }: LatestShowsProps) => {
+const LatestShows = ({ movies }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.movielist}>

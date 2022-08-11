@@ -1,11 +1,11 @@
 import StarRatingComponent from "react-star-rating-component";
 
-interface StarRatingProps {
+interface Props {
   value: number;
   showNumber: boolean;
 }
 
-const StarRating = ({ value, showNumber }: StarRatingProps) => {
+const StarRating = ({ value, showNumber }: Props) => {
   const scaledownFactor = 2;
   return (
     <div>

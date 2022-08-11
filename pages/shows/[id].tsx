@@ -14,12 +14,20 @@ import StarRating from "../../src/components/star-rating";
 import axios from "axios";
 import styles from "../../styles/show-detail-page.module.css";
 
+const LIMIT_STARRING = 6;
+
 const Show = ({
   showData,
   castData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { name, rating, image, summary, status, schedule, genres, network } =
-    showData;
+  const name = showData.name;
+  const rating = showData.rating?.average || 0;
+  const imageurl = showData.image?.medium || "https://via.placeholder.com/150";
+  const summary = showData.summary || "";
+  const status = showData.status || "n/a";
+  const schedule = showData.schedule?.days?.join(", ") || "n/a";
+  const genres = showData.genres?.join(", ") || "n/a";
+  const network = showData.network?.name || "n/a";
 
   return (
     <div className={styles.container}>
@@ -38,13 +46,13 @@ const Show = ({
           <div className={styles.moviecard}>
             <Image
               alt="movie poster"
-              src={image?.medium || "https://via.placeholder.com/150"}
+              src={imageurl}
               layout="fill"
               objectFit="contain"
             />
           </div>
           <div className={styles.summarycontent}>
-            <StarRating value={rating?.average || 0} showNumber={true} />
+            <StarRating value={rating} showNumber={true} />
             <h2 className={styles.summarytitle}>{name}</h2>
             <div
               dangerouslySetInnerHTML={{ __html: summary }}
@@ -56,13 +64,10 @@ const Show = ({
           <div>
             <h3 className={styles.columnHeader}>Show Info</h3>
             <div className={styles.detailItemContainer}>
-              <DetailItem name="Streamed on" value={network?.name || "n/a"} />
-              <DetailItem
-                name="Schedule"
-                value={schedule?.days?.join(", ") || "n/a"}
-              />
-              <DetailItem name="Status" value={status || "n/a"} />
-              <DetailItem name="Genre" value={genres?.join(", ") || "n/a"} />
+              <DetailItem name="Streamed on" value={network} />
+              <DetailItem name="Schedule" value={schedule} />
+              <DetailItem name="Status" value={status} />
+              <DetailItem name="Genre" value={genres} />
             </div>
           </div>
 
@@ -83,17 +88,18 @@ const Show = ({
   );
 };
 
-interface IProps {
+interface Props {
   showData: MovieDetailRes;
   castData: CastRes;
 }
 
-export const getServerSideProps: GetServerSideProps<IProps> = async (
+export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const API_ENDPOINT = process.env.TVMAZE_ENDPOINT;
   const id = context?.params?.id || null;
   if (!id) return <Error statusCode={400} />;
+
   const [showData, castData]: [
     AxiosResponse<MovieDetailRes>,
     AxiosResponse<CastRes>
@@ -101,8 +107,12 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
     axios.get(`${API_ENDPOINT}/shows/${id}`),
     axios.get(`${API_ENDPOINT}/shows/${id}/cast`),
   ]);
+
   return {
-    props: { showData: showData.data, castData: castData.data.slice(0, 6) },
+    props: {
+      showData: showData.data,
+      castData: castData.data.slice(0, LIMIT_STARRING),
+    },
   };
 };
 

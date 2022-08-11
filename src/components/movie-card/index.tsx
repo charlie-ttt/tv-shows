@@ -3,14 +3,14 @@ import Link from "next/link";
 import StarRating from "../star-rating";
 import styles from "./movie-card.module.css";
 
-interface MovieCardProps {
+interface Props {
   id: number;
   rating: number;
   name: string;
   imageurl: string;
 }
 
-const MovieCard = ({ id, name, rating, imageurl }: MovieCardProps) => {
+const MovieCard = ({ id, name, rating, imageurl }: Props) => {
   return (
     <Link href={`/shows/${id}`}>
       <a style={{ textDecoration: "none" }}>
