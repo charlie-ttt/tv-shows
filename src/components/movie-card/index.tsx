@@ -13,7 +13,7 @@ interface MovieCardProps {
 const MovieCard = ({ id, name, rating, imageurl }: MovieCardProps) => {
   return (
     <Link href={`/shows/${id}`}>
-      <a>
+      <a style={{ textDecoration: "none" }}>
         <div className={styles.container}>
           <div>
             <Image

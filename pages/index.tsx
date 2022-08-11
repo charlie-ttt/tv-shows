@@ -2,31 +2,30 @@ import Head from "next/head";
 import { InferGetServerSidePropsType } from "next";
 import LatestShows from "../src/components/latest-shows";
 import type { RecentShowDetail } from "../src/interfaces/api-interfaces";
-import defaultstyles from "../styles/default-layout.module.css";
-import homestyles from "../styles/home-page.module.css";
+import styles from "../styles/home-page.module.css";
 
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
-    <div className={defaultstyles.container}>
+    <div>
       <Head>
         <title>Home Page: TV Bland</title>
         <meta name="description" content="TV Bland Application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={defaultstyles.bannertop}></div>
-      <main className={defaultstyles.main}>
-        <div className={defaultstyles.title}>TV Bland</div>
-        <p className={defaultstyles.description}>
+      <div className={styles.bannertop}></div>
+      <main className={styles.main}>
+        <div className={styles.title}>TV Bland</div>
+        <p className={styles.description}>
           TV Show and web series database. <br />
           Create personalised schedules. Episode guide, cast, crew, and
           character information.
         </p>
-        <h2 className={homestyles.latestshows}>Latest Added Shows</h2>
+        <h2 className={styles.latestshows}>Latest Added Shows</h2>
         <LatestShows movies={data} />
       </main>
-      <footer className={defaultstyles.footer}></footer>
+      <footer className={styles.footer}></footer>
     </div>
   );
 };

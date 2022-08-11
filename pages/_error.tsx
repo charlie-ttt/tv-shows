@@ -1,21 +1,14 @@
 import { NextPage } from "next";
-import defaultstyles from "../styles/default-layout.module.css";
 
 interface ErrorPageProps {
   statusCode?: number;
 }
 const ErrorPage: NextPage<ErrorPageProps> = ({ statusCode }) => {
   return (
-    <div className={defaultstyles.container}>
-      <div className={defaultstyles.bannertop}></div>
-      <main className={defaultstyles.main}>
-        <div className={defaultstyles.title}>
-          {statusCode
-            ? `An error ${statusCode} occurred on server`
-            : "An error occurred on client"}
-        </div>
-      </main>
-      <footer className={defaultstyles.footer}></footer>
+    <div>
+      {statusCode
+        ? `An error ${statusCode} occurred on server`
+        : "An error occurred on client"}
     </div>
   );
 };

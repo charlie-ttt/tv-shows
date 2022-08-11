@@ -4,4 +4,11 @@
   width: 120px;
   margin: 1rem 0.5rem;
   overflow-wrap: break-word;
+  color: black;
+}
+
+@media (min-width: 420px) {
+  .container{
+    margin: 1rem 1rem;
+  }
 }

@@ -10,8 +10,7 @@ import Head from "next/head";
 import Image from "next/image";
 import StarRating from "../../src/components/star-rating";
 import axios from "axios";
-import defaultstyles from "../../styles/default-layout.module.css";
-import showdetailpage from "../../styles/show-detail-page.module.css";
+import styles from "../../styles/show-detail-page.module.css";
 
 const Show = ({
   showData,
@@ -21,7 +20,7 @@ const Show = ({
     showData;
 
   return (
-    <div className={defaultstyles.container}>
+    <div className={styles.container}>
       <Head>
         <title>TV Bland: Show Detail Page</title>
         <meta
@@ -30,29 +29,30 @@ const Show = ({
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={defaultstyles.bannertop} />
-      <main className={defaultstyles.main}>
-        <h1 className={defaultstyles.title}>TV Bland</h1>
-        <div className={showdetailpage.summarycontainer}>
-          <div className={showdetailpage.moviecard}>
+      <div className={styles.bannertop} />
+      <main className={styles.main}>
+        <h1 className={styles.title}>TV Bland</h1>
+        <div className={styles.summarycontainer}>
+          <div className={styles.moviecard}>
             <Image
               alt="movie poster"
               src={image?.medium || "https://via.placeholder.com/150"}
               layout="fill"
+              objectFit="contain"
             />
           </div>
-          <div className={showdetailpage.summarycontent}>
+          <div className={styles.summarycontent}>
             <StarRating value={rating?.average || 0} showNumber={true} />
-            <h2 className={showdetailpage.summarytitle}>{name}</h2>
+            <h2 className={styles.summarytitle}>{name}</h2>
             <div
               dangerouslySetInnerHTML={{ __html: summary }}
-              className={showdetailpage.summarydescription}
+              className={styles.summarydescription}
             />
           </div>
         </div>
-        <div className={showdetailpage.showdetailscontainer}>
-          <div className={showdetailpage.showdetailscolumn}>
-            <h3 className={showdetailpage.columnHeader}>Show Info</h3>
+        <div className={styles.showdetailscontainer}>
+          <div className={styles.showdetailscolumn}>
+            <h3 className={styles.columnHeader}>Show Info</h3>
             <DetailItem name="Streamed on" value={network?.name || "n/a"} />
             <DetailItem
               name="Schedule"
@@ -62,8 +62,16 @@ const Show = ({
             <DetailItem name="Genre" value={genres?.join(", ") || "n/a"} />
           </div>
 
-          <div className={showdetailpage.showdetailscolumn}>
-            <h3 className={showdetailpage.columnHeader}>Starring</h3>
+          <div className={styles.showdetailscolumn}>
+            <Image
+              src="/human-icon.svg"
+              alt="SVG as an image"
+              layout="fixed"
+              height={30}
+              width={30}
+            />
+
+            <h3 className={styles.columnHeader}>Starring</h3>
             {castData.map((cast, i) => (
               <DetailItem
                 key={i} // use index because characterId from API response are duplicated for some reason
@@ -74,7 +82,7 @@ const Show = ({
           </div>
         </div>
       </main>
-      <footer className={defaultstyles.footer}></footer>
+      <footer className={styles.footer}></footer>
     </div>
   );
 };
@@ -85,9 +93,9 @@ interface DetailItemProps {
 }
 
 const DetailItem = ({ name, value }: DetailItemProps) => (
-  <div className={showdetailpage.detailItem}>
+  <div className={styles.detailItem}>
     {name}
-    <span className={showdetailpage.resulttext}>{value}</span>
+    <span className={styles.resulttext}>{value}</span>
   </div>
 );
 
