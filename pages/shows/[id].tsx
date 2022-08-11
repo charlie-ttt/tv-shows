@@ -1,18 +1,24 @@
+import type {
+  CastRes,
+  MovieDetailRes,
+} from "../../src/interfaces/api-interfaces";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
+import type { AxiosResponse } from "axios";
+import Error from "next/error";
 import Head from "next/head";
 import Image from "next/image";
-import type { MovieDetailRes } from "../../src/interfaces/api-interfaces";
 import StarRating from "../../src/components/star-rating";
+import axios from "axios";
 import defaultstyles from "../../styles/default-layout.module.css";
 import showdetailpage from "../../styles/show-detail-page.module.css";
 
 const Show = ({
-  data,
+  showData,
+  castData,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log("🚀 ~ data", data);
   const { name, rating, image, summary, status, schedule, genres, network } =
-    data;
+    showData;
 
   return (
     <div className={defaultstyles.container}>
@@ -58,7 +64,13 @@ const Show = ({
 
           <div className={showdetailpage.showdetailscolumn}>
             <h3 className={showdetailpage.columnHeader}>Starring</h3>
-            {/* <DetailItem name="Streamed on" value={network?.name || "n/a"} /> */}
+            {castData.map((cast, i) => (
+              <DetailItem
+                key={i} // use index because characterId from API response are duplicated for some reason
+                name={cast?.person?.name || "n/a"}
+                value={cast?.character?.name || "n/a"}
+              />
+            ))}
           </div>
         </div>
       </main>
@@ -79,12 +91,27 @@ const DetailItem = ({ name, value }: DetailItemProps) => (
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+interface IProps {
+  showData: MovieDetailRes;
+  castData: CastRes;
+}
+
+export const getServerSideProps: GetServerSideProps<IProps> = async (
+  context
+) => {
   const API_ENDPOINT = process.env.TVMAZE_ENDPOINT;
-  const id = context?.params?.id || "";
-  const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
-  const data: MovieDetailRes = await res.json();
-  return { props: { data } };
+  const id = context?.params?.id || null;
+  if (!id) return <Error statusCode={400} />;
+  const [showData, castData]: [
+    AxiosResponse<MovieDetailRes>,
+    AxiosResponse<CastRes>
+  ] = await Promise.all([
+    axios.get(`${API_ENDPOINT}/shows/${id}`),
+    axios.get(`${API_ENDPOINT}/shows/${id}/cast`),
+  ]);
+  return {
+    props: { showData: showData.data, castData: castData.data.slice(0, 6) },
+  };
 };
 
 export default Show;

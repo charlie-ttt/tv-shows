@@ -51,3 +51,34 @@ export interface RecentShowDetail {
   type: string;
   url: string;
 }
+
+export interface CastRes extends Array<Cast> {}
+
+export interface Cast {
+  self: boolean;
+  voice: boolean;
+  person: {
+    id: number;
+    url: string;
+    name: string;
+    country: {
+      name: string;
+      code: string;
+      timezone: string;
+    };
+    birthday: Date;
+    deathday: null;
+    gender: string;
+    image: {
+      medium: string;
+      original: string;
+    };
+    updated: number;
+  };
+  character: {
+    id: number;
+    url: string;
+    name: string;
+    image: null;
+  };
+}
