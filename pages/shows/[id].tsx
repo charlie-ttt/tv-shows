@@ -80,6 +80,7 @@ const DetailItem = ({ name, value }: DetailItemProps) => (
 );
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const API_ENDPOINT = process.env.TVMAZE_ENDPOINT;
   const id = context?.params?.id || "";
   const res = await fetch(`https://api.tvmaze.com/shows/${id}`);
   const data: MovieDetailRes = await res.json();

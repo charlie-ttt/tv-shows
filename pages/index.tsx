@@ -32,7 +32,8 @@ const Home = ({
 };
 
 export async function getServerSideProps() {
-  const res = await fetch("https://api.tvmaze.com/schedule");
+  const API_ENDPOINT = process.env.TVMAZE_ENDPOINT;
+  const res = await fetch(`${API_ENDPOINT}/schedule`);
   const data: RecentShowDetail[] = await res.json();
   return { props: { data } };
 }
