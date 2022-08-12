@@ -19,15 +19,18 @@ const LIMIT_STARRING = 6;
 const Show = ({
   showData,
   castData,
+  errorCode,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const name = showData.name;
-  const rating = showData.rating?.average || 0;
-  const imageurl = showData.image?.medium || "https://via.placeholder.com/150";
-  const summary = showData.summary || "";
-  const status = showData.status || "n/a";
-  const schedule = showData.schedule?.days?.join(", ") || "n/a";
-  const genres = showData.genres?.join(", ") || "n/a";
-  const network = showData.network?.name || "n/a";
+  if (errorCode) return <Error statusCode={errorCode} />;
+
+  const name = showData?.name;
+  const rating = showData?.rating?.average || 0;
+  const imageurl = showData?.image?.medium || "https://via.placeholder.com/150";
+  const summary = showData?.summary || "";
+  const status = showData?.status || "n/a";
+  const schedule = showData?.schedule?.days?.join(", ") || "n/a";
+  const genres = showData?.genres?.join(", ") || "n/a";
+  const network = showData?.network?.name || "n/a";
 
   return (
     <div className={styles.container}>
@@ -73,13 +76,14 @@ const Show = ({
 
           <div>
             <h3 className={styles.columnHeader}>Starring</h3>
-            {castData.map((cast, i) => (
-              <DetailItemWithIcon
-                key={i} // use index because characterId from API response are duplicated for some reason
-                name={cast?.person?.name || "n/a"}
-                value={cast?.character?.name || "n/a"}
-              />
-            ))}
+            {castData &&
+              castData.map((cast, i) => (
+                <DetailItemWithIcon
+                  key={i} // use index because characterId from API response are duplicated for some reason
+                  name={cast?.person?.name || "n/a"}
+                  value={cast?.character?.name || "n/a"}
+                />
+              ))}
           </div>
         </div>
       </main>
@@ -89,8 +93,9 @@ const Show = ({
 };
 
 interface Props {
-  showData: MovieDetailRes;
-  castData: CastRes;
+  showData: MovieDetailRes | null;
+  castData: CastRes | null;
+  errorCode: number | null;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
@@ -100,20 +105,30 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const id = context?.params?.id || null;
   if (!id) return <Error statusCode={400} />;
 
-  const [showData, castData]: [
-    AxiosResponse<MovieDetailRes>,
-    AxiosResponse<CastRes>
-  ] = await Promise.all([
-    axios.get(`${API_ENDPOINT}/shows/${id}`),
-    axios.get(`${API_ENDPOINT}/shows/${id}/cast`),
-  ]);
-
-  return {
-    props: {
-      showData: showData.data,
-      castData: castData.data.slice(0, LIMIT_STARRING),
-    },
-  };
+  try {
+    const [showData, castData]: [
+      AxiosResponse<MovieDetailRes>,
+      AxiosResponse<CastRes>
+    ] = await Promise.all([
+      axios.get(`${API_ENDPOINT}/shows/${id}`),
+      axios.get(`${API_ENDPOINT}/shows/${id}/cast`),
+    ]);
+    return {
+      props: {
+        errorCode: null,
+        showData: showData.data,
+        castData: castData.data.slice(0, LIMIT_STARRING), //default val from API return too many result
+      },
+    };
+  } catch (error: any) {
+    return {
+      props: {
+        errorCode: 500,
+        showData: null,
+        castData: null,
+      },
+    };
+  }
 };
 
 export default Show;
