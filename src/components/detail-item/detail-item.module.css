@@ -1,0 +1,20 @@
+
+.detailItemRoot{
+  width: 150px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.resulttext{
+  margin-top: 0.5rem;
+  font-weight: 400;
+  color: gray;
+}
+
+@media (min-width: 420px) {
+  .detailItemRoot{
+    width: 100%;
+  }
+}
